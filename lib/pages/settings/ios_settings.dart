@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_browser/models/browser_model.dart';
 import 'package:flutter_browser/models/webview_model.dart';
 import 'package:flutter_browser/multiselect_dialog.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -22,10 +21,6 @@ class _IOSSettingsState extends State<IOSSettings> {
   }
 
   List<Widget> _buildIOSWebViewSettings() {
-    var browserModel = Provider.of<BrowserModel>(context, listen: true);
-    if (browserModel.webViewTabs.isEmpty) {
-      return [];
-    }
     var currentWebViewModel = Provider.of<WebViewModel>(context, listen: true);
     var webViewController = currentWebViewModel.webViewController;
 
@@ -43,7 +38,6 @@ class _IOSSettingsState extends State<IOSSettings> {
           currentWebViewModel.settings?.disallowOverScroll = value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -56,7 +50,6 @@ class _IOSSettingsState extends State<IOSSettings> {
           currentWebViewModel.settings?.enableViewportScale = value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -70,7 +63,6 @@ class _IOSSettingsState extends State<IOSSettings> {
           currentWebViewModel.settings?.suppressesIncrementalRendering = value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -83,7 +75,6 @@ class _IOSSettingsState extends State<IOSSettings> {
           currentWebViewModel.settings?.allowsAirPlayForMediaPlayback = value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -99,7 +90,6 @@ class _IOSSettingsState extends State<IOSSettings> {
               value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -113,7 +103,6 @@ class _IOSSettingsState extends State<IOSSettings> {
           currentWebViewModel.settings?.ignoresViewportScaleLimits = value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -126,7 +115,6 @@ class _IOSSettingsState extends State<IOSSettings> {
           currentWebViewModel.settings?.allowsInlineMediaPlayback = value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -142,7 +130,6 @@ class _IOSSettingsState extends State<IOSSettings> {
               value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -157,7 +144,6 @@ class _IOSSettingsState extends State<IOSSettings> {
             webViewController?.setSettings(
                 settings:
                     currentWebViewModel.settings ?? InAppWebViewSettings());
-            browserModel.save();
             setState(() {});
           },
           value: currentWebViewModel.settings?.selectionGranularity,
@@ -207,7 +193,6 @@ class _IOSSettingsState extends State<IOSSettings> {
             webViewController?.setSettings(
                 settings:
                     currentWebViewModel.settings ?? InAppWebViewSettings());
-            browserModel.save();
             setState(() {});
           }
         },
@@ -221,7 +206,6 @@ class _IOSSettingsState extends State<IOSSettings> {
           currentWebViewModel.settings?.sharedCookiesEnabled = value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -237,7 +221,6 @@ class _IOSSettingsState extends State<IOSSettings> {
               .settings?.automaticallyAdjustsScrollIndicatorInsets = value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -252,7 +235,6 @@ class _IOSSettingsState extends State<IOSSettings> {
               value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -267,7 +249,6 @@ class _IOSSettingsState extends State<IOSSettings> {
             webViewController?.setSettings(
                 settings:
                     currentWebViewModel.settings ?? InAppWebViewSettings());
-            browserModel.save();
             setState(() {});
           },
           value: currentWebViewModel.settings?.decelerationRate,
@@ -291,7 +272,6 @@ class _IOSSettingsState extends State<IOSSettings> {
           currentWebViewModel.settings?.alwaysBounceVertical = value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -304,7 +284,6 @@ class _IOSSettingsState extends State<IOSSettings> {
           currentWebViewModel.settings?.alwaysBounceHorizontal = value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -317,7 +296,6 @@ class _IOSSettingsState extends State<IOSSettings> {
           currentWebViewModel.settings?.scrollsToTop = value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -330,7 +308,6 @@ class _IOSSettingsState extends State<IOSSettings> {
           currentWebViewModel.settings?.isPagingEnabled = value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -350,7 +327,6 @@ class _IOSSettingsState extends State<IOSSettings> {
               webViewController?.setSettings(
                   settings:
                       currentWebViewModel.settings ?? InAppWebViewSettings());
-              browserModel.save();
               setState(() {});
             },
           ),
@@ -372,7 +348,6 @@ class _IOSSettingsState extends State<IOSSettings> {
               webViewController?.setSettings(
                   settings:
                       currentWebViewModel.settings ?? InAppWebViewSettings());
-              browserModel.save();
               setState(() {});
             },
           ),
@@ -389,7 +364,6 @@ class _IOSSettingsState extends State<IOSSettings> {
             webViewController?.setSettings(
                 settings:
                     currentWebViewModel.settings ?? InAppWebViewSettings());
-            browserModel.save();
             setState(() {});
           },
           value: currentWebViewModel.settings?.contentInsetAdjustmentBehavior,
@@ -414,7 +388,6 @@ class _IOSSettingsState extends State<IOSSettings> {
           currentWebViewModel.settings?.isDirectionalLockEnabled = value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -432,7 +405,6 @@ class _IOSSettingsState extends State<IOSSettings> {
               webViewController?.setSettings(
                   settings:
                       currentWebViewModel.settings ?? InAppWebViewSettings());
-              browserModel.save();
               setState(() {});
             },
           ),
@@ -452,7 +424,6 @@ class _IOSSettingsState extends State<IOSSettings> {
               webViewController?.setSettings(
                   settings:
                       currentWebViewModel.settings ?? InAppWebViewSettings());
-              browserModel.save();
               setState(() {});
             },
           ),
@@ -467,7 +438,6 @@ class _IOSSettingsState extends State<IOSSettings> {
           currentWebViewModel.settings?.applePayAPIEnabled = value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -499,7 +469,6 @@ class _IOSSettingsState extends State<IOSSettings> {
                                     InAppWebViewSettings());
                             currentWebViewModel.settings =
                             await webViewController?.getSettings();
-                            browserModel.save();
                             setState(() {});
                           },
                           labelTypes: const [
@@ -525,7 +494,6 @@ class _IOSSettingsState extends State<IOSSettings> {
           currentWebViewModel.settings?.isTextInteractionEnabled = value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -538,7 +506,6 @@ class _IOSSettingsState extends State<IOSSettings> {
           currentWebViewModel.settings?.isSiteSpecificQuirksModeEnabled = value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -551,7 +518,6 @@ class _IOSSettingsState extends State<IOSSettings> {
           currentWebViewModel.settings?.upgradeKnownHostsToHTTPS = value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -564,7 +530,6 @@ class _IOSSettingsState extends State<IOSSettings> {
           currentWebViewModel.settings?.isElementFullscreenEnabled = value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -577,7 +542,6 @@ class _IOSSettingsState extends State<IOSSettings> {
           currentWebViewModel.settings?.isFindInteractionEnabled = value;
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
-          browserModel.save();
           setState(() {});
         },
       ),

@@ -1,19 +1,13 @@
 // import 'package:cached_network_image/cached_network_image.dart';
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_browser/custom_image.dart';
-import 'package:flutter_browser/webview_tab.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:flutter_browser/models/download_model.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
-import 'models/browser_model.dart';
 import 'models/webview_model.dart';
 
 class LongPressAlertDialog extends StatefulWidget {
@@ -72,8 +66,6 @@ class _LongPressAlertDialogState extends State<LongPressAlertDialog> {
         const Divider(),
         _buildLinkPreview(),
         const Divider(),
-        _buildOpenNewTab(),
-        _buildOpenNewIncognitoTab(),
         _buildCopyAddressLink(),
         _buildShareLink(),
       ];
@@ -82,9 +74,7 @@ class _LongPressAlertDialogState extends State<LongPressAlertDialog> {
       return <Widget>[
         _buildImageTile(),
         const Divider(),
-        _buildOpenImageNewTab(),
         _buildDownloadImage(),
-        _buildSearchImageOnGoogle(),
         _buildShareImage(),
       ];
     }
@@ -135,9 +125,6 @@ class _LongPressAlertDialogState extends State<LongPressAlertDialog> {
   }
 
   Widget _buildLinkPreview() {
-    var browserModel = Provider.of<BrowserModel>(context, listen: true);
-    browserModel.getSettings();
-
     return ListTile(
       title: const Center(child: Text("Link Preview")),
       subtitle: Container(
@@ -173,39 +160,6 @@ class _LongPressAlertDialogState extends State<LongPressAlertDialog> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildOpenNewTab() {
-    var browserModel = Provider.of<BrowserModel>(context, listen: false);
-
-    return ListTile(
-      title: const Text("Open in a new tab"),
-      onTap: () {
-        browserModel.addTab(WebViewTab(
-          key: GlobalKey(),
-          webViewModel:
-              WebViewModel(url: widget.requestFocusNodeHrefResult?.url),
-        ));
-        Navigator.pop(context);
-      },
-    );
-  }
-
-  Widget _buildOpenNewIncognitoTab() {
-    var browserModel = Provider.of<BrowserModel>(context, listen: false);
-
-    return ListTile(
-      title: const Text("Open in a new incognito tab"),
-      onTap: () {
-        browserModel.addTab(WebViewTab(
-          key: GlobalKey(),
-          webViewModel: WebViewModel(
-              url: widget.requestFocusNodeHrefResult?.url,
-              isIncognitoMode: true),
-        ));
-        Navigator.pop(context);
-      },
     );
   }
 
@@ -275,16 +229,10 @@ class _LongPressAlertDialogState extends State<LongPressAlertDialog> {
         String? url = widget.hitTestResult.extra;
         if (url != null) {
           var uri = Uri.parse(widget.hitTestResult.extra!);
-          String path = uri.path;
-          String fileName = path.substring(path.lastIndexOf('/') + 1);
-          Directory? directory = await getExternalStorageDirectory();
-          await FlutterDownloader.enqueue(
-            url: url,
-            fileName: fileName,
-            savedDir: directory!.path,
-            showNotification: true,
-            openFileFromNotification: true,
-          );
+          // String path = uri.path;
+          // String fileName = path.substring(path.lastIndexOf('/') + 1);
+          // Directory? directory = await getExternalStorageDirectory();
+          MobileDownloadService.downloadFile(uri.toString());
         }
         if (mounted) {
           Navigator.pop(context);
@@ -311,41 +259,6 @@ class _LongPressAlertDialogState extends State<LongPressAlertDialog> {
       onTap: () {
         if (widget.hitTestResult.extra != null) {
           Share.share(widget.hitTestResult.extra!);
-        }
-        Navigator.pop(context);
-      },
-    );
-  }
-
-  Widget _buildOpenImageNewTab() {
-    var browserModel = Provider.of<BrowserModel>(context, listen: false);
-
-    return ListTile(
-      title: const Text("Image in a new tab"),
-      onTap: () {
-        browserModel.addTab(WebViewTab(
-          key: GlobalKey(),
-          webViewModel: WebViewModel(
-              url: WebUri(widget.hitTestResult.extra ?? "about:blank")),
-        ));
-        Navigator.pop(context);
-      },
-    );
-  }
-
-  Widget _buildSearchImageOnGoogle() {
-    var browserModel = Provider.of<BrowserModel>(context, listen: false);
-
-    return ListTile(
-      title: const Text("Search this image on Google"),
-      onTap: () {
-        if (widget.hitTestResult.extra != null) {
-          var url =
-              "http://images.google.com/searchbyimage?image_url=${widget.hitTestResult.extra!}";
-          browserModel.addTab(WebViewTab(
-            key: GlobalKey(),
-            webViewModel: WebViewModel(url: WebUri(url)),
-          ));
         }
         Navigator.pop(context);
       },

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_browser/models/browser_model.dart';
+import 'package:flutter_browser/models/webview_model.dart';
 import 'package:provider/provider.dart';
 
 class FindOnPageAppBar extends StatefulWidget {
@@ -29,9 +29,8 @@ class _FindOnPageAppBarState extends State<FindOnPageAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    var browserModel = Provider.of<BrowserModel>(context, listen: false);
-    var webViewModel = browserModel.getCurrentTab()?.webViewModel;
-    var findInteractionController = webViewModel?.findInteractionController;
+    var webViewModel = Provider.of<WebViewModel>(context, listen: false);
+    var findInteractionController = webViewModel.findInteractionController;
 
     return AppBar(
       titleSpacing: 10.0,

@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_browser/models/browser_model.dart';
-import 'package:flutter_browser/models/search_engine_model.dart';
 import 'package:flutter_browser/models/webview_model.dart';
 import 'package:flutter_browser/util.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
-
-import '../../project_info_popup.dart';
 
 class CrossPlatformSettings extends StatefulWidget {
   const CrossPlatformSettings({Key? key}) : super(key: key);
@@ -32,11 +28,7 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
 
   @override
   Widget build(BuildContext context) {
-    var browserModel = Provider.of<BrowserModel>(context, listen: true);
     var children = _buildBaseSettings();
-    if (browserModel.webViewTabs.isNotEmpty) {
-      children.addAll(_buildWebViewTabSettings());
-    }
 
     return ListView(
       children: children,
@@ -44,99 +36,10 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
   }
 
   List<Widget> _buildBaseSettings() {
-    var browserModel = Provider.of<BrowserModel>(context, listen: true);
-    var settings = browserModel.getSettings();
-
     var widgets = <Widget>[
       const ListTile(
         title: Text("General Settings"),
         enabled: false,
-      ),
-      ListTile(
-        title: const Text("Search Engine"),
-        subtitle: Text(settings.searchEngine.name),
-        trailing: DropdownButton<SearchEngineModel>(
-          hint: const Text("Search Engine"),
-          onChanged: (value) {
-            setState(() {
-              if (value != null) {
-                settings.searchEngine = value;
-              }
-              browserModel.updateSettings(settings);
-            });
-          },
-          value: settings.searchEngine,
-          items: SearchEngines.map((searchEngine) {
-            return DropdownMenuItem(
-              value: searchEngine,
-              child: Text(searchEngine.name),
-            );
-          }).toList(),
-        ),
-      ),
-      ListTile(
-        title: const Text("Home page"),
-        subtitle: Text(settings.homePageEnabled
-            ? (settings.customUrlHomePage.isEmpty
-                ? "ON"
-                : settings.customUrlHomePage)
-            : "OFF"),
-        onTap: () {
-          _customHomePageController.text = settings.customUrlHomePage;
-
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                contentPadding: const EdgeInsets.all(0.0),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    StatefulBuilder(
-                      builder: (context, setState) {
-                        return SwitchListTile(
-                          title: Text(settings.homePageEnabled ? "ON" : "OFF"),
-                          value: settings.homePageEnabled,
-                          onChanged: (value) {
-                            setState(() {
-                              settings.homePageEnabled = value;
-                              browserModel.updateSettings(settings);
-                            });
-                          },
-                        );
-                      },
-                    ),
-                    StatefulBuilder(builder: (context, setState) {
-                      return ListTile(
-                        enabled: settings.homePageEnabled,
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Expanded(
-                              child: TextField(
-                                onSubmitted: (value) {
-                                  setState(() {
-                                    settings.customUrlHomePage = value;
-                                    browserModel.updateSettings(settings);
-                                    Navigator.pop(context);
-                                  });
-                                },
-                                keyboardType: TextInputType.url,
-                                decoration: const InputDecoration(
-                                    hintText: 'Custom URL Home Page'),
-                                controller: _customHomePageController,
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    })
-                  ],
-                ),
-              );
-            },
-          );
-        },
       ),
       FutureBuilder(
         future: InAppWebViewController.getDefaultUserAgent(),
@@ -153,28 +56,6 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
               Clipboard.setData(ClipboardData(text: deafultUserAgent));
             },
           );
-        },
-      ),
-      SwitchListTile(
-        title: const Text("Debugging Enabled"),
-        subtitle: const Text(
-            "Enables debugging of web contents loaded into any WebViews of this application. On iOS the debugging mode is always enabled."),
-        value: Util.isAndroid() ? settings.debuggingEnabled : true,
-        onChanged: (value) {
-          setState(() {
-            settings.debuggingEnabled = value;
-            browserModel.updateSettings(settings);
-            if (browserModel.webViewTabs.isNotEmpty) {
-              var webViewModel = browserModel.getCurrentTab()?.webViewModel;
-              if (Util.isAndroid()) {
-                InAppWebViewController.setWebContentsDebuggingEnabled(
-                    settings.debuggingEnabled);
-              }
-              webViewModel?.webViewController?.setSettings(
-                  settings: webViewModel.settings ?? InAppWebViewSettings());
-              browserModel.save();
-            }
-          });
         },
       ),
       FutureBuilder(
@@ -195,39 +76,6 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
           );
         },
       ),
-      ListTile(
-        leading: Container(
-          height: 35,
-          width: 35,
-          margin: const EdgeInsets.only(top: 6.0, left: 6.0),
-          child: const CircleAvatar(
-              backgroundImage: AssetImage("assets/icon/icon.png")),
-        ),
-        title: const Text("Flutter InAppWebView Project"),
-        subtitle: const Text(
-            "https://github.com/pichillilorenzo/flutter_inappwebview"),
-        trailing: const Icon(Icons.arrow_forward),
-        onLongPress: () {
-          showGeneralDialog(
-            context: context,
-            barrierDismissible: false,
-            pageBuilder: (context, animation, secondaryAnimation) {
-              return const ProjectInfoPopup();
-            },
-            transitionDuration: const Duration(milliseconds: 300),
-          );
-        },
-        onTap: () {
-          showGeneralDialog(
-            context: context,
-            barrierDismissible: false,
-            pageBuilder: (context, animation, secondaryAnimation) {
-              return const ProjectInfoPopup();
-            },
-            transitionDuration: const Duration(milliseconds: 300),
-          );
-        },
-      )
     ];
 
     if (Util.isAndroid()) {
@@ -258,7 +106,6 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
   }
 
   List<Widget> _buildWebViewTabSettings() {
-    var browserModel = Provider.of<BrowserModel>(context, listen: true);
     var currentWebViewModel = Provider.of<WebViewModel>(context, listen: true);
     var webViewController = currentWebViewModel.webViewController;
 
@@ -277,7 +124,6 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -291,7 +137,6 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -330,7 +175,6 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
                                                 InAppWebViewSettings());
                                     currentWebViewModel.settings =
                                         await webViewController?.getSettings();
-                                    browserModel.save();
                                     setState(() {
                                       Navigator.pop(context);
                                     });
@@ -365,7 +209,6 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -381,7 +224,6 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -395,7 +237,6 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -409,7 +250,6 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -423,7 +263,6 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -437,7 +276,6 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -451,7 +289,6 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -471,7 +308,6 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
                       currentWebViewModel.settings ?? InAppWebViewSettings());
               currentWebViewModel.settings =
                   await webViewController?.getSettings();
-              browserModel.save();
               setState(() {});
             },
           ),
@@ -488,7 +324,6 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -504,7 +339,6 @@ class _CrossPlatformSettingsState extends State<CrossPlatformSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),

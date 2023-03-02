@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_browser/models/browser_model.dart';
 import 'package:flutter_browser/models/webview_model.dart';
 import 'package:flutter_browser/pages/settings/android_settings.dart';
 import 'package:flutter_browser/pages/settings/cross_platform_settings.dart';
@@ -12,12 +11,9 @@ import '../../custom_popup_menu_item.dart';
 
 class PopupSettingsMenuActions {
   // ignore: constant_identifier_names
-  static const String RESET_BROWSER_SETTINGS = "Reset Browser Settings";
-  // ignore: constant_identifier_names
   static const String RESET_WEBVIEW_SETTINGS = "Reset WebView Settings";
 
   static const List<String> choices = <String>[
-    RESET_BROWSER_SETTINGS,
     RESET_WEBVIEW_SETTINGS,
   ];
 }
@@ -73,20 +69,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   var items = [
                     CustomPopupMenuItem<String>(
                       enabled: true,
-                      value: PopupSettingsMenuActions.RESET_BROWSER_SETTINGS,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text(PopupSettingsMenuActions
-                                .RESET_BROWSER_SETTINGS),
-                            Icon(
-                              Foundation.web,
-                              color: Colors.black,
-                            )
-                          ]),
-                    ),
-                    CustomPopupMenuItem<String>(
-                      enabled: true,
                       value: PopupSettingsMenuActions.RESET_WEBVIEW_SETTINGS,
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -119,16 +101,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void _popupMenuChoiceAction(String choice) async {
     switch (choice) {
-      case PopupSettingsMenuActions.RESET_BROWSER_SETTINGS:
-        var browserModel = Provider.of<BrowserModel>(context, listen: false);
-        setState(() {
-          browserModel.updateSettings(BrowserSettings());
-          browserModel.save();
-        });
-        break;
       case PopupSettingsMenuActions.RESET_WEBVIEW_SETTINGS:
-        var browserModel = Provider.of<BrowserModel>(context, listen: false);
-        browserModel.getSettings();
         var currentWebViewModel =
             Provider.of<WebViewModel>(context, listen: false);
         var webViewController = currentWebViewModel.webViewController;
@@ -141,7 +114,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 allowsLinkPreview: false,
                 isFraudulentWebsiteWarningEnabled: true));
         currentWebViewModel.settings = await webViewController?.getSettings();
-        browserModel.save();
         setState(() {});
         break;
     }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_browser/models/browser_model.dart';
 import 'package:flutter_browser/models/webview_model.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -21,10 +20,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
   }
 
   List<Widget> _buildAndroidWebViewTabSettings() {
-    var browserModel = Provider.of<BrowserModel>(context, listen: true);
-    if (browserModel.webViewTabs.isEmpty) {
-      return [];
-    }
     var currentWebViewModel = Provider.of<WebViewModel>(context, listen: true);
     var webViewController = currentWebViewModel.webViewController;
 
@@ -48,7 +43,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                       currentWebViewModel.settings ?? InAppWebViewSettings());
               currentWebViewModel.settings =
                   await webViewController?.getSettings();
-              browserModel.save();
               setState(() {});
             },
           ),
@@ -64,7 +58,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -78,7 +71,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -92,7 +84,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -106,7 +97,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -121,7 +111,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
             webViewController?.setSettings(
                 settings:
                     currentWebViewModel.settings ?? InAppWebViewSettings());
-            browserModel.save();
           });
         },
       ),
@@ -135,7 +124,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -157,7 +145,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                     currentWebViewModel.settings ?? InAppWebViewSettings());
             currentWebViewModel.settings =
                 await webViewController?.getSettings();
-            browserModel.save();
             setState(() {});
           },
           value: currentWebViewModel.settings?.mixedContentMode,
@@ -182,7 +169,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -196,7 +182,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -219,7 +204,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                     currentWebViewModel.settings ?? InAppWebViewSettings());
             currentWebViewModel.settings =
                 await webViewController?.getSettings();
-            browserModel.save();
             setState(() {});
           },
         ),
@@ -234,7 +218,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -248,7 +231,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -270,7 +252,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                     currentWebViewModel.settings ?? InAppWebViewSettings());
             currentWebViewModel.settings =
                 await webViewController?.getSettings();
-            browserModel.save();
             setState(() {});
           },
           value: currentWebViewModel.settings?.cacheMode,
@@ -300,7 +281,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                       currentWebViewModel.settings ?? InAppWebViewSettings());
               currentWebViewModel.settings =
                   await webViewController?.getSettings();
-              browserModel.save();
               setState(() {});
             },
           ),
@@ -323,7 +303,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                       currentWebViewModel.settings ?? InAppWebViewSettings());
               currentWebViewModel.settings =
                   await webViewController?.getSettings();
-              browserModel.save();
               setState(() {});
             },
           ),
@@ -345,7 +324,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                       currentWebViewModel.settings ?? InAppWebViewSettings());
               currentWebViewModel.settings =
                   await webViewController?.getSettings();
-              browserModel.save();
               setState(() {});
             },
           ),
@@ -367,7 +345,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                       currentWebViewModel.settings ?? InAppWebViewSettings());
               currentWebViewModel.settings =
                   await webViewController?.getSettings();
-              browserModel.save();
               setState(() {});
             },
           ),
@@ -391,7 +368,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                     currentWebViewModel.settings ?? InAppWebViewSettings());
             currentWebViewModel.settings =
                 await webViewController?.getSettings();
-            browserModel.save();
             setState(() {});
           },
           value: currentWebViewModel.settings?.disabledActionModeMenuItems,
@@ -421,7 +397,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                       currentWebViewModel.settings ?? InAppWebViewSettings());
               currentWebViewModel.settings =
                   await webViewController?.getSettings();
-              browserModel.save();
               setState(() {});
             },
           ),
@@ -442,7 +417,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                       currentWebViewModel.settings ?? InAppWebViewSettings());
               currentWebViewModel.settings =
                   await webViewController?.getSettings();
-              browserModel.save();
               setState(() {});
             },
           ),
@@ -460,7 +434,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                     currentWebViewModel.settings ?? InAppWebViewSettings());
             currentWebViewModel.settings =
                 await webViewController?.getSettings();
-            browserModel.save();
             setState(() {});
           },
           value: currentWebViewModel.settings?.forceDark,
@@ -484,7 +457,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -501,7 +473,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                     currentWebViewModel.settings ?? InAppWebViewSettings());
             currentWebViewModel.settings =
                 await webViewController?.getSettings();
-            browserModel.save();
             setState(() {});
           },
           value: currentWebViewModel.settings?.layoutAlgorithm,
@@ -526,7 +497,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -540,7 +510,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -561,7 +530,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                       currentWebViewModel.settings ?? InAppWebViewSettings());
               currentWebViewModel.settings =
                   await webViewController?.getSettings();
-              browserModel.save();
               setState(() {});
             },
           ),
@@ -583,7 +551,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                       currentWebViewModel.settings ?? InAppWebViewSettings());
               currentWebViewModel.settings =
                   await webViewController?.getSettings();
-              browserModel.save();
               setState(() {});
             },
           ),
@@ -599,7 +566,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -613,7 +579,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -632,7 +597,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                       currentWebViewModel.settings ?? InAppWebViewSettings());
               currentWebViewModel.settings =
                   await webViewController?.getSettings();
-              browserModel.save();
               setState(() {});
             },
           ),
@@ -653,7 +617,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                       currentWebViewModel.settings ?? InAppWebViewSettings());
               currentWebViewModel.settings =
                   await webViewController?.getSettings();
-              browserModel.save();
               setState(() {});
             },
           ),
@@ -674,7 +637,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                       currentWebViewModel.settings ?? InAppWebViewSettings());
               currentWebViewModel.settings =
                   await webViewController?.getSettings();
-              browserModel.save();
               setState(() {});
             },
           ),
@@ -690,7 +652,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -704,7 +665,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -718,7 +678,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -732,7 +691,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -753,7 +711,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                     currentWebViewModel.settings ?? InAppWebViewSettings());
             currentWebViewModel.settings =
                 await webViewController?.getSettings();
-            browserModel.save();
             setState(() {});
           },
           value: currentWebViewModel.settings?.overScrollMode,
@@ -777,7 +734,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -798,7 +754,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                     currentWebViewModel.settings ?? InAppWebViewSettings());
             currentWebViewModel.settings =
                 await webViewController?.getSettings();
-            browserModel.save();
             setState(() {});
           },
           value: currentWebViewModel.settings?.scrollBarStyle,
@@ -830,7 +785,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                     currentWebViewModel.settings ?? InAppWebViewSettings());
             currentWebViewModel.settings =
                 await webViewController?.getSettings();
-            browserModel.save();
             setState(() {});
           },
           value: currentWebViewModel.settings?.verticalScrollbarPosition,
@@ -866,7 +820,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                       currentWebViewModel.settings ?? InAppWebViewSettings());
               currentWebViewModel.settings =
                   await webViewController?.getSettings();
-              browserModel.save();
               setState(() {});
             },
           ),
@@ -882,7 +835,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
           webViewController?.setSettings(
               settings: currentWebViewModel.settings ?? InAppWebViewSettings());
           currentWebViewModel.settings = await webViewController?.getSettings();
-          browserModel.save();
           setState(() {});
         },
       ),
@@ -905,7 +857,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                       currentWebViewModel.settings ?? InAppWebViewSettings());
               currentWebViewModel.settings =
                   await webViewController?.getSettings();
-              browserModel.save();
               setState(() {});
             },
           ),
@@ -939,7 +890,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                                     InAppWebViewSettings());
                             currentWebViewModel.settings =
                                 await webViewController?.getSettings();
-                            browserModel.save();
                             setState(() {});
                           },
                           labelTypes: const [
@@ -984,7 +934,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                                     InAppWebViewSettings());
                             currentWebViewModel.settings =
                                 await webViewController?.getSettings();
-                            browserModel.save();
                             setState(() {});
                           },
                           labelTypes: const [
@@ -1029,7 +978,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                                     InAppWebViewSettings());
                             currentWebViewModel.settings =
                                 await webViewController?.getSettings();
-                            browserModel.save();
                             setState(() {});
                           },
                           labelTypes: const [
@@ -1074,7 +1022,6 @@ class _AndroidSettingsState extends State<AndroidSettings> {
                                     InAppWebViewSettings());
                             currentWebViewModel.settings =
                                 await webViewController?.getSettings();
-                            browserModel.save();
                             setState(() {});
                           },
                           labelTypes: const [
