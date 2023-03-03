@@ -126,7 +126,6 @@ class _LongPressAlertDialogState extends State<LongPressAlertDialog> {
 
   Widget _buildLinkPreview() {
     return ListTile(
-      title: const Center(child: Text("Link Preview")),
       subtitle: Container(
         padding: const EdgeInsets.only(top: 15.0),
         height: 250,

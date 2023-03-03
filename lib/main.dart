@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_browser/app_bar/floating_bubble.dart';
 import 'package:flutter_browser/models/webview_model.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -30,14 +31,13 @@ void main() async {
   TAB_VIEWER_BOTTOM_OFFSET_2 = 140.0;
   TAB_VIEWER_BOTTOM_OFFSET_3 = 150.0;
 
-
   await Permission.storage.request();
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => WebViewModel(url: WebUri('https://m.naver.com')),
+          create: (context) => WebViewModel(url: WebUri('https://google.com')),
         ),
       ],
       child: const FlutterBrowserApp(),
@@ -51,15 +51,14 @@ class FlutterBrowserApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Browser',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const Browser(),
-      },
-    );
+        title: 'Flutter Browser',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const Browser(),
+        });
   }
 }

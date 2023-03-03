@@ -37,9 +37,7 @@ class _WebViewTabState extends State<WebViewTab> with WidgetsBindingObserver {
     _pullToRefreshController = kIsWeb
         ? null
         : PullToRefreshController(
-            settings: PullToRefreshSettings(
-              color: Colors.blue
-            ),
+            settings: PullToRefreshSettings(color: Colors.blue),
             onRefresh: () async {
               if (defaultTargetPlatform == TargetPlatform.android) {
                 _webViewController?.reload();
@@ -71,13 +69,13 @@ class _WebViewTabState extends State<WebViewTab> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (_webViewController != null && Util.isAndroid()) {
-      if (state == AppLifecycleState.paused) {
-        pauseAll();
-      } else {
-        resumeAll();
-      }
-    }
+    resume();
+    // if (_webViewController != null && Util.isAndroid()) {
+    //   if (state == AppLifecycleState.paused) {
+    //     pauseAll();
+    //   } else {
+    //   }
+    // }
   }
 
   void pauseAll() {
@@ -125,9 +123,7 @@ class _WebViewTabState extends State<WebViewTab> with WidgetsBindingObserver {
               }
               return true;
             },
-        child: _buildWebView()
-      )
-    );
+            child: _buildWebView()));
   }
 
   InAppWebView _buildWebView() {
@@ -137,6 +133,7 @@ class _WebViewTabState extends State<WebViewTab> with WidgetsBindingObserver {
     initialSettings.useOnLoadResource = true;
     initialSettings.useShouldOverrideUrlLoading = true;
     initialSettings.javaScriptCanOpenWindowsAutomatically = true;
+    initialSettings.javaScriptEnabled = true;
     initialSettings.userAgent =
         "Mozilla/5.0 (Linux; Android 9; LG-H870 Build/PKQ1.190522.001) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36";
     initialSettings.transparentBackground = true;
@@ -166,7 +163,8 @@ class _WebViewTabState extends State<WebViewTab> with WidgetsBindingObserver {
         _webViewController = controller;
         widget.webViewModel.webViewController = controller;
         widget.webViewModel.pullToRefreshController = _pullToRefreshController;
-        widget.webViewModel.findInteractionController = _findInteractionController;
+        widget.webViewModel.findInteractionController =
+            _findInteractionController;
 
         if (Util.isAndroid()) {
           controller.startSafeBrowsing();
@@ -228,15 +226,15 @@ class _WebViewTabState extends State<WebViewTab> with WidgetsBindingObserver {
         widget.webViewModel.needsToCompleteInitialLoad = false;
         currentWebViewModel.updateWithValue(widget.webViewModel);
 
-        var screenshotData = _webViewController
-            ?.takeScreenshot(
-                screenshotConfiguration: ScreenshotConfiguration(
-                    compressFormat: CompressFormat.JPEG, quality: 20))
-            .timeout(
-              const Duration(milliseconds: 1500),
-              onTimeout: () => null,
-            );
-        widget.webViewModel.screenshot = await screenshotData;
+        // var screenshotData = _webViewController
+        //     ?.takeScreenshot(
+        //         screenshotConfiguration: ScreenshotConfiguration(
+        //             compressFormat: CompressFormat.JPEG, quality: 20))
+        //     .timeout(
+        //       const Duration(milliseconds: 1500),
+        //       onTimeout: () => null,
+        //     );
+        // widget.webViewModel.screenshot = await screenshotData;
       },
       onUpdateVisitedHistory: (controller, url, androidIsReload) async {
         widget.webViewModel.url = url;
@@ -327,7 +325,6 @@ class _WebViewTabState extends State<WebViewTab> with WidgetsBindingObserver {
       },
     );
   }
-
 
   Future<HttpAuthResponseAction> createHttpAuthDialog(
       URLAuthenticationChallenge challenge) async {

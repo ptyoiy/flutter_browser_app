@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_browser/app_bar/browser_app_bar.dart';
+import 'package:flutter_browser/app_bar/floating_bubble.dart';
 import 'package:flutter_browser/models/webview_model.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +41,9 @@ class _BrowserState extends State<Browser> with SingleTickerProviderStateMixin {
     var webViewModel = Provider.of<WebViewModel>(context, listen: false);
 
     return Scaffold(
-        appBar: const BrowserAppBar(),
-        body: WebViewTab(webViewModel: webViewModel));
+      body: WebViewTab(webViewModel: webViewModel),
+      floatingActionButton: const FloatingBubble(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+    );
   }
 }
